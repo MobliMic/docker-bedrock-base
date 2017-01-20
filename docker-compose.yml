@@ -1,0 +1,31 @@
+version: '2'
+
+services:
+   db:
+     image: mariadb
+     volumes:
+       - db_data:/var/lib/mysql
+     restart: always
+     ports:
+       - "3306:3306"
+     environment:
+       MYSQL_ROOT_PASSWORD: root
+       MYSQL_DATABASE: wordpress
+       MYSQL_USER: wordpress
+       MYSQL_PASSWORD: wordpress
+
+   project:
+     depends_on:
+       - db
+     build:
+       context: ./project
+     volumes:
+       - wp_data:/var/www/html
+     ports:
+       - "8080:80"
+       - "443:443"
+     restart: always
+     links:
+       - db
+volumes:
+    db_data:
