@@ -33,6 +33,9 @@ You'll need to enable show hidden files on a Mac
 
 All commands are run from within the root of the project
 
+Use the following on Mac if you have problems with files not running as sometimes OSX changes the line endings and everything dies
+```RUN cat /usr/local/bin/runtime.sh | tr "\r" "\n" > /usr/local/bin/runtime.sh```
+
 ## Existing project setup
 
 To include info on migrating db's etc.

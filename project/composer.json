@@ -44,7 +44,6 @@
     "wpackagist-plugin/w3-total-cache": "0.9.5.1",
     "wpackagist-plugin/akismet": "^3.2",
     "wpackagist-plugin/contact-form-7": "^4.6",
-    "wpackagist-plugin/contact-form-7-to-database-extension": "^2.10",
     "wpackagist-plugin/youtube-embed-plus": "^11.5",
     "wpackagist-plugin/members": "^1.1",
     "wpackagist-plugin/debug-bar": "^0.8.4",
