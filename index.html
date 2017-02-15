@@ -8,6 +8,14 @@
 .reveal h1 {
 	font-size: 7.5rem;
 }
+
+footer {
+	position: absolute;
+	bottom: 2rem;
+	width: 100%;
+	text-align: center;
+	font-size: 1.7rem !important;
+}
 </style>
 		<div class="reveal">
 			<div class="slides">
@@ -24,16 +32,81 @@
 				</section>
 
 				<section>
-					<h3>Why use bedrock?</h3>
-					What is it?
+					<section>
+						<h3>Why use bedrock?</h3>
+					</section>
+
+					<section>
+						<ul>
+							<li class="fragment">Dependancy management</li>
+							<li class="fragment">Makes version control easier</li>
+							<li class="fragment">Better security</li>
+							<li class="fragment">Better project structure</li>
+							<li class="fragment">dotenv configuration</li>
+						</ul>
+					</section>
+
 				</section>
 
 				<section>
 					<h3>My container structure<h3>
+						<ul>
+							<li>Database</li>
+							<li>Application</li>
+						</ul>
+				</section>
+
+<section>
+	<section>
+		<pre>
+services:
+db:
+image: mariadb
+volumes:
+ - db_data:/var/lib/mysql
+restart: always
+ports:
+ - "33063:3306"
+environment:
+ MYSQL_ROOT_PASSWORD: root
+ MYSQL_DATABASE: wordpress
+ MYSQL_USER: wordpress
+ MYSQL_PASSWORD: wordpress
+		</pre>
+	</section>
+
+	<section>
+		<pre>
+project:
+	depends_on:
+		- db
+	build:
+		context: ./project
+	volumes:
+		- ./project:/var/www/html
+	ports:
+		- "8080:80"
+		- "4434:443"
+	restart: always
+	links:
+		- db
+		</pre>
+	</section>
+
+	 <section>
+		<pre>
+volumes:
+	db_data:
+		</pre>
+	</section>
+</section>
+
+				<section>
+					<pre>mysqldump -h 127.0.0.1 -P 33063 -u root -p wordpress > dump.sql</pre>
 				</section>
 
 				<footer>
-					@moblimic
+					@moblimic - https://github.com/MobliMic/docker-bedrock-base
 				</footer>
 			</div>
 		</div>
