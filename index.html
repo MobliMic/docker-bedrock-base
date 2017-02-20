@@ -49,61 +49,138 @@ footer {
 				</section>
 
 				<section>
-					<h3>My container structure<h3>
-						<ul>
-							<li>Database</li>
-							<li>Application</li>
-						</ul>
-				</section>
+					<section>
+						<h3>My containers<h3>
+							<ul style="font-size:35px;">
+								<li>Database - mariadb container</li>
+								<li>Application</li>
+							</ul>
+						</section>
+
+<!-- SLIDE -->
 
 <section>
-	<section>
 		<pre>
 services:
-db:
-image: mariadb
-volumes:
- - db_data:/var/lib/mysql
-restart: always
-ports:
- - "33063:3306"
-environment:
- MYSQL_ROOT_PASSWORD: root
- MYSQL_DATABASE: wordpress
- MYSQL_USER: wordpress
- MYSQL_PASSWORD: wordpress
+	db:
+		image: mariadb
+	volumes:
+		- db_data:/var/lib/mysql
+	restart: always
+	ports:
+		- "33063:3306"
+	environment:
+		MYSQL_ROOT_PASSWORD: root
+		MYSQL_DATABASE: wordpress
+		MYSQL_USER: wordpress
+		MYSQL_PASSWORD: wordpress
 		</pre>
 	</section>
 
 	<section>
 		<pre>
-project:
-	depends_on:
-		- db
-	build:
-		context: ./project
-	volumes:
-		- ./project:/var/www/html
-	ports:
-		- "8080:80"
-		- "4434:443"
-	restart: always
-	links:
-		- db
+	project:
+		depends_on:
+			- db
+		build:
+			context: ./project
+		volumes:
+			- ./project:/var/www/html
+		ports:
+			- "8080:80"
+			- "4434:443"
+		restart: always
+		links:
+			- db
 		</pre>
 	</section>
 
 	 <section>
 		<pre>
 volumes:
-	db_data:
+    db_data:
 		</pre>
 	</section>
 </section>
 
-				<section>
-					<pre>mysqldump -h 127.0.0.1 -P 33063 -u root -p wordpress > dump.sql</pre>
-				</section>
+<!-- SLIDE -->
+
+
+<section>
+	<section>
+<pre>
+FROM php:7.0-apache
+</pre>
+	</section>
+	<section>
+<pre>
+RUN *apt-get stuff like git wget unzip etc.*
+
+RUN *php.ini config*
+</pre>
+	</section>
+
+	<section>
+<pre>
+RUN a2enmod rewrite expires ssl
+
+WORKDIR /tmp
+
+COPY ./config/composer-install.sh ./
+
+RUN ["chmod", "+x", "./composer-install.sh"]
+
+RUN bash ./composer-install.sh
+</pre>
+	</section>
+
+	<section>
+<pre>
+WORKDIR /var/www/html
+
+RUN mkdir /etc/apache2/ssl
+
+COPY ./config/keys /etc/apache2/ssl
+
+COPY ./config/wp-base.conf /etc/apache2/sites-available/wp-base.conf
+
+RUN a2dissite 000-default && a2ensite wp-base
+
+RUN service apache2 restart
+</pre>
+	</section>
+
+<section>
+<pre>
+COPY ./config/runtime.sh /usr/local/bin/
+
+RUN ["chmod", "+x", "/usr/local/bin/runtime.sh"]
+
+RUN ln -s /usr/local/bin/runtime.sh / # backwards compat
+
+ENTRYPOINT ["runtime.sh"]
+
+CMD ["apache2-foreground"]
+</pre>
+</section>
+
+</section>
+
+<!-- SLIDE -->
+<section>
+	<pre>
+#!/bin/bash
+cd /var/www/html
+composer install
+apache2-foreground
+exec "$@"
+</pre>
+</section>
+
+<!-- SLIDE -->
+<section>
+	<pre>mysqldump -h 127.0.0.1 -P 33063 -u root -p wordpress > dump.sql</pre>
+</section>
 
 				<footer>
 					@moblimic - https://github.com/MobliMic/docker-bedrock-base
