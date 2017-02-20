@@ -24,13 +24,9 @@ COPY ./config/composer-install.sh ./
 
 RUN ["chmod", "+x", "./composer-install.sh"]
 
-#RUN cat ./composer-install.sh | tr "\r" "\n" > ./composer-install.sh
-
 RUN bash ./composer-install.sh
 
 WORKDIR /var/www/html
-
-RUN ls -alh
 
 RUN mkdir /etc/apache2/ssl
 
@@ -45,8 +41,6 @@ RUN service apache2 restart
 COPY ./config/runtime.sh /usr/local/bin/
 
 RUN ["chmod", "+x", "/usr/local/bin/runtime.sh"]
-
-#RUN cat /usr/local/bin/runtime.sh | tr "\r" "\n" > /usr/local/bin/runtime.sh
 
 RUN ln -s /usr/local/bin/runtime.sh / # backwards compat
 

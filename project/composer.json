@@ -47,7 +47,8 @@
     "wpackagist-plugin/youtube-embed-plus": "^11.5",
     "wpackagist-plugin/members": "^1.1",
     "wpackagist-plugin/debug-bar": "^0.8.4",
-    "wpackagist-plugin/debug-bar-timber": "^0.3.0"
+    "wpackagist-plugin/debug-bar-timber": "^0.3.0",
+    "wpackagist-theme/lightpress": "^1.4"
   },
   "require-dev": {
     "squizlabs/php_codesniffer": "^2.5.1"

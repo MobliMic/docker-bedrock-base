@@ -5,6 +5,7 @@ project/web/app/mu-plugins/*/
 project/web/app/upgrade
 project/web/app/uploads/*
 !project/web/app/uploads/.gitkeep
+project/web/app/themes/lightpress/
 
 # WordPress
 project/web/wp
