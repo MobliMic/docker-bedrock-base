@@ -18,14 +18,6 @@ RUN { \
 
 RUN a2enmod rewrite expires ssl
 
-#WORKDIR /tmp
-
-#COPY ./config/composer-install.sh ./
-
-#RUN ["chmod", "+x", "./composer-install.sh"]
-
-#RUN bash ./composer-install.sh
-
 WORKDIR /var/www/html
 
 RUN mkdir /etc/apache2/ssl
@@ -37,13 +29,5 @@ COPY ./config/wp-base.conf /etc/apache2/sites-available/wp-base.conf
 RUN a2dissite 000-default && a2ensite wp-base
 
 RUN service apache2 restart
-
-#COPY ./config/runtime.sh /usr/local/bin/
-
-#RUN ["chmod", "+x", "/usr/local/bin/runtime.sh"]
-
-#RUN ln -s /usr/local/bin/runtime.sh / # backwards compat
-
-#ENTRYPOINT ["runtime.sh"]
 
 CMD ["apache2-foreground"]
